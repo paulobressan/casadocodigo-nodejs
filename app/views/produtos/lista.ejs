@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>teste</title>
 </head>
+
 <body>
     <table style="border: 1px solid black">
         <tbody>
             <tr>
                 <td>id</td>
-                <td>nome</td>
-            </tr>        
-            <tr>
-                <td>1</td>
-                <td>Livro de Node</td>
+                <td>titulo</td>
+                <td>Descrição</td>
+                <td>Preço</td>
             </tr>
+            <% for(var i = 0; i < lista.length;i++){%>
+                <tr>
+                    <td><%= lista[i].id %></td>
+                    <td><%= lista[i].titulo %></td>
+                    <td><%= lista[i].descricao %></td>
+                    <td><%= lista[i].preco %></td>
+                </tr>
+            <%}%>        
         </tbody>
     </table>
 </body>
+
 </html>
