@@ -14,6 +14,8 @@
 //O mesmo conceito porem não precisamos carregar o express a todo momento que for chamado as configurações
 //Importando o express e invocando o express
 let app = require('express')();
+//Importando o express-load
+
 //Criando uma variavel no express para a utilização do ejs
 app.set('view engine', 'ejs');
 //configurar o caminho de onde estão as views
