@@ -1,15 +1,16 @@
-//Importando arquivo de conexão com o banco de dados
-var connectionFactory = require('../infra/connectionFactory');
+//LEMBRANDO QUE OS REQUIRE ESTÃO SENDO GERENCIADO PELO EXPRESS-LOAD
 //Esse arquivo é o arquivo onde é definido as rotas de produtos.
 module.exports = (app) => {
     //atendendo requisições e enviando respostas
     app.get('/produtos', (request, response) => {
         console.log("Listando");
         //Atribuindo a connectionFactory
-        var connection = connectionFactory();
+        //Quando é carregado pelo express-load ele disponibiliza a instancia atravez de caminho do diretório.
+        var connection = app.infra.connectionFactory();
+        //separando a responsabilidade do banco para um modulo.
+        var produtoBanco = app.infra.produtoBanco;
 
-        //criando uma query e passando uma função anonima para tratar o retorno.
-        connection.query('select * from livros', (err, results) => {
+        produtoBanco.lista(connection, (err, results) => {
             //retornando um json para o navegador.
             //response.send(results);
             response.render("produtos/lista", {lista: results});
