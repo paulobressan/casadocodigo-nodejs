@@ -4,13 +4,16 @@ module.exports = (app) => {
     //atendendo requisições e enviando respostas
     app.get('/produtos', (request, response) => {
         console.log("Listando");
-        //Atribuindo a connectionFactory
-        //Quando é carregado pelo express-load ele disponibiliza a instancia atravez de caminho do diretório.
-        var connection = app.infra.connectionFactory();
-        //separando a responsabilidade do banco para um modulo.
-        var produtoBanco = app.infra.produtoBanco;
+        
+        //Criando uma instancia da classe ConnectionFactory buscando-a com o express-load
+        //e logo em seguida executando o metodo que cria uma conexão.
+        var connection = new app.infra.ConnectionFactory().createConnection();        
 
-        produtoBanco.lista(connection, (err, results) => {
+        //separando a responsabilidade do banco para uma classe DAO.
+        //instanciando a classe e buscando-a pelo express-load
+        var produtoDao = new app.dao.ProdutoDao(connection);
+
+        produtoDao.lista((err, results) => {
             //retornando um json para o navegador.
             //response.send(results);
             response.render("produtos/lista", {lista: results});
@@ -21,4 +24,21 @@ module.exports = (app) => {
         //renderizar arquivos com o ejs, o ejs busca as views na pasta views.
        // response.render("produtos/lista");
     });
+
+    //responde o formulario de produtos
+    app.get("/produtos/form", (resquest, response)=>{
+        response.render('produtos/form');
+    })
+
+    app.post("/produtos/salva", (request, response)=>{
+        //capturando valor enviado
+        var produto = request.body;
+        console.log(produto);
+        
+        // var connection = new app.infra.ConnectionFactory().createConnection();
+        // var produtoDao = new app.dao.ProdutoDao(connection);
+        // produtoDao.salva(produto, (err, result) => {
+
+        // })
+    })
 }
